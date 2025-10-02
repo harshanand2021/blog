@@ -1,9 +1,9 @@
-Flask
-Flask-RESTful
-Flask-SQLAlchemy
+flask
+flask_restful
+flask_sqlalchemy
 Flask-Migrate
 Flask-Cors
 python-dotenv
 gunicorn
-wikzeug
-Flask-JWT-Extended
+werkzeug
+flask_jwt_extended
