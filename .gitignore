@@ -1,0 +1,26 @@
+# Environment
+.venv/
+
+# Configuration
+config.py
+
+#IDEA
+.idea/
+
+#VS code
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.manifest
+*.spec
+pip-wheel-metadata/
