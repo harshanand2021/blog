@@ -27,3 +27,6 @@ pip-wheel-metadata/
 
 # Environment variables
 .env*
+
+# Migrations
+migrations/

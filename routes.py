@@ -1,7 +1,8 @@
 from app import app, db
 from flask import jsonify, request
-from models import User
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, NotFound
+from flask_jwt_extended import get_jwt_identity, jwt_required
+from models import User, Post
 
 @app.route('/', methods=['GET'])
 def home():
@@ -9,6 +10,7 @@ def home():
 
 @app.route('/v1/register', methods=['POST'])
 def register():
+
     data = request.get_json()
 
     if not data:
@@ -30,6 +32,7 @@ def register():
 
 @app.route('/v1/login', methods=['POST'])
 def login():
+
     data = request.get_json()
     if not data:
         raise BadRequest("Invalid request")
@@ -42,3 +45,26 @@ def login():
         raise BadRequest("Invalid credentials")
 
     return jsonify(access_token=token), 200
+
+@app.route('/v1/posts', methods=['POST'])
+@jwt_required()
+def add_post():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    title = data.get('title')
+    body = data.get('body')
+    
+    if not title or not body:
+        raise BadRequest("Title and body are required")
+
+    post = Post(title=title, body=body, author_id=user_id)
+    db.session.add(post)
+    db.session.commit()
+    return jsonify(message="Post created"), 201
+
+@app.route('/v1/posts/<int:post_id>', methods=['GET'])
+def get_posts(post_id):
+    post = Post.query.get(post_id)
+    if not post:
+        raise NotFound("Post not found")
+    return jsonify(posts=post.to_dict()), 200
