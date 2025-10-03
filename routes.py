@@ -68,3 +68,18 @@ def get_posts(post_id):
     if not post:
         raise NotFound("Post not found")
     return jsonify(posts=post.to_dict()), 200
+
+@app.route('/v1/posts/<int:post_id>', methods=['PATCH'])
+@jwt_required()
+def update_post(post_id):
+    user_id = get_jwt_identity()
+    post = Post.query.get(post_id)
+    if not post:
+        raise NotFound("Post not found")
+    if post.author_id != user_id:
+        raise BadRequest("You are not authorized to modify this post")
+    data = request.get_json()
+    post.title = data.get('title', post.title)
+    post.body = data.get('body', post.body)
+    db.session.commit()
+    return jsonify(message="Post updated"), 200
