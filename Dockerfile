@@ -1,6 +1,6 @@
 FROM PYTHON:3.11
 EXPOSE 5000
 WORKDIR /app
-RUN pip install flask flask_SQLAlchemy flask_jwt_extended flask_migrate
+RUN pip install -r requirements.txt
 COPY . .
 CMD [ "flask", "run", "--host", "0.0.0.0" ]
