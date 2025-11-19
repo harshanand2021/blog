@@ -4,6 +4,11 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 
 app = Flask(__name__)
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 app.config.from_object('config.Config')
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
