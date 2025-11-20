@@ -30,3 +30,6 @@ pip-wheel-metadata/
 
 # Migrations
 migrations/
+
+# Private files
+*.pem
